@@ -9,5 +9,15 @@ pipeline {
                 }
             }
         }
+        stage('Frontend Unit Test') {
+            steps {
+                dir('bugtracker-frontend') {
+                    sh ...
+                    npm ci
+                    npm test
+                    ...
+                }
+            }
+        }
     }
 }
