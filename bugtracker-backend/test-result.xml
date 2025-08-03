@@ -1,0 +1,216 @@
+=== RUN   TestServerInitialization
+[cors] 2025/08/03 14:29:33 Handler: Preflight request
+[cors] 2025/08/03 14:29:33   Preflight response headers: map[Access-Control-Allow-Credentials:[true] Access-Control-Allow-Methods:[GET] Access-Control-Allow-Origin:[http://localhost:3000] Access-Control-Max-Age:[300] Vary:[Origin, Access-Control-Request-Method, Access-Control-Request-Headers]]
+--- PASS: TestServerInitialization (0.12s)
+=== RUN   TestCORSConfiguration
+=== RUN   TestCORSConfiguration/Valid_OPTIONS_request_from_allowed_origin
+    main_test.go:170: Request: OPTIONS http://localhost:8081/api/health
+    main_test.go:171: Request Headers: map[Access-Control-Request-Method:[GET] Origin:[http://localhost:3000]]
+[cors] 2025/08/03 14:29:33 Handler: Preflight request
+[cors] 2025/08/03 14:29:33   Preflight response headers: map[Access-Control-Allow-Credentials:[true] Access-Control-Allow-Methods:[GET] Access-Control-Allow-Origin:[http://localhost:3000] Access-Control-Max-Age:[300] Vary:[Origin, Access-Control-Request-Method, Access-Control-Request-Headers]]
+    main_test.go:178: Response Status: 204
+    main_test.go:179: Response Headers: map[Access-Control-Allow-Credentials:[true] Access-Control-Allow-Methods:[GET] Access-Control-Allow-Origin:[http://localhost:3000] Access-Control-Max-Age:[300] Date:[Sun, 03 Aug 2025 10:59:33 GMT] Vary:[Origin, Access-Control-Request-Method, Access-Control-Request-Headers]]
+    main_test.go:186: Checking CORS headers:
+    main_test.go:187: Access-Control-Allow-Origin: http://localhost:3000
+    main_test.go:188: Access-Control-Allow-Methods: GET
+    main_test.go:189: Access-Control-Allow-Headers: 
+=== RUN   TestCORSConfiguration/OPTIONS_request_from_disallowed_origin
+    main_test.go:170: Request: OPTIONS http://localhost:8081/api/health
+    main_test.go:171: Request Headers: map[Access-Control-Request-Method:[GET] Origin:[http://evil.com]]
+[cors] 2025/08/03 14:29:33 Handler: Preflight request
+[cors] 2025/08/03 14:29:33   Preflight aborted: origin 'http://evil.com' not allowed
+    main_test.go:178: Response Status: 204
+    main_test.go:179: Response Headers: map[Date:[Sun, 03 Aug 2025 10:59:33 GMT] Vary:[Origin, Access-Control-Request-Method, Access-Control-Request-Headers]]
+=== RUN   TestCORSConfiguration/Valid_GET_request_from_allowed_origin
+    main_test.go:170: Request: GET http://localhost:8081/api/health
+    main_test.go:171: Request Headers: map[Origin:[http://localhost:3000]]
+[cors] 2025/08/03 14:29:33 Handler: Actual request
+[cors] 2025/08/03 14:29:33   Actual response added headers: map[Access-Control-Allow-Credentials:[true] Access-Control-Allow-Origin:[http://localhost:3000] Vary:[Origin]]
+2025/08/03 14:29:33 Health check request received from [::1]:46848
+2025/08/03 14:29:33 Sending health check response
+    main_test.go:178: Response Status: 200
+    main_test.go:179: Response Headers: map[Access-Control-Allow-Credentials:[true] Access-Control-Allow-Origin:[http://localhost:3000] Content-Length:[34] Content-Type:[application/json] Date:[Sun, 03 Aug 2025 10:59:33 GMT] Vary:[Origin]]
+    main_test.go:186: Checking CORS headers:
+    main_test.go:187: Access-Control-Allow-Origin: http://localhost:3000
+    main_test.go:188: Access-Control-Allow-Methods: 
+    main_test.go:189: Access-Control-Allow-Headers: 
+=== RUN   TestCORSConfiguration/OPTIONS_request_with_invalid_method
+    main_test.go:170: Request: OPTIONS http://localhost:8081/api/health
+    main_test.go:171: Request Headers: map[Access-Control-Request-Method:[INVALID] Origin:[http://localhost:3000]]
+[cors] 2025/08/03 14:29:33 Handler: Preflight request
+[cors] 2025/08/03 14:29:33   Preflight aborted: method 'INVALID' not allowed
+    main_test.go:178: Response Status: 204
+    main_test.go:179: Response Headers: map[Date:[Sun, 03 Aug 2025 10:59:33 GMT] Vary:[Origin, Access-Control-Request-Method, Access-Control-Request-Headers]]
+=== RUN   TestCORSConfiguration/Request_with_credentials
+    main_test.go:170: Request: GET http://localhost:8081/api/health
+    main_test.go:171: Request Headers: map[Cookie:[session=123] Origin:[http://localhost:3000]]
+[cors] 2025/08/03 14:29:33 Handler: Actual request
+[cors] 2025/08/03 14:29:33   Actual response added headers: map[Access-Control-Allow-Credentials:[true] Access-Control-Allow-Origin:[http://localhost:3000] Vary:[Origin]]
+2025/08/03 14:29:33 Health check request received from [::1]:46862
+2025/08/03 14:29:33 Sending health check response
+    main_test.go:178: Response Status: 200
+    main_test.go:179: Response Headers: map[Access-Control-Allow-Credentials:[true] Access-Control-Allow-Origin:[http://localhost:3000] Content-Length:[34] Content-Type:[application/json] Date:[Sun, 03 Aug 2025 10:59:33 GMT] Vary:[Origin]]
+    main_test.go:186: Checking CORS headers:
+    main_test.go:187: Access-Control-Allow-Origin: http://localhost:3000
+    main_test.go:188: Access-Control-Allow-Methods: 
+    main_test.go:189: Access-Control-Allow-Headers: 
+--- PASS: TestCORSConfiguration (0.12s)
+    --- PASS: TestCORSConfiguration/Valid_OPTIONS_request_from_allowed_origin (0.00s)
+    --- PASS: TestCORSConfiguration/OPTIONS_request_from_disallowed_origin (0.00s)
+    --- PASS: TestCORSConfiguration/Valid_GET_request_from_allowed_origin (0.00s)
+    --- PASS: TestCORSConfiguration/OPTIONS_request_with_invalid_method (0.01s)
+    --- PASS: TestCORSConfiguration/Request_with_credentials (0.00s)
+PASS
+ok  	bugtracker-backend/cmd/bugtracker	0.248s
+?   	bugtracker-backend/internal/config	[no test files]
+=== RUN   TestCreateComment
+2025/08/03 14:29:33 Database initialized successfully.
+=== RUN   TestCreateComment/Valid_comment_creation
+=== RUN   TestCreateComment/Invalid_bug_ID
+=== RUN   TestCreateComment/Invalid_bug_ID_format
+--- PASS: TestCreateComment (0.03s)
+    --- PASS: TestCreateComment/Valid_comment_creation (0.01s)
+    --- PASS: TestCreateComment/Invalid_bug_ID (0.00s)
+    --- PASS: TestCreateComment/Invalid_bug_ID_format (0.00s)
+=== RUN   TestGetComments
+2025/08/03 14:29:33 Database initialized successfully.
+=== RUN   TestGetComments/Get_existing_comments
+=== RUN   TestGetComments/Get_comments_for_non-existent_bug
+--- PASS: TestGetComments (0.07s)
+    --- PASS: TestGetComments/Get_existing_comments (0.00s)
+    --- PASS: TestGetComments/Get_comments_for_non-existent_bug (0.00s)
+=== RUN   TestDatabaseInitialization
+2025/08/03 14:29:33 Database initialized successfully.
+--- PASS: TestDatabaseInitialization (0.11s)
+=== RUN   TestMultipleInitializations
+2025/08/03 14:29:33 Database initialized successfully.
+2025/08/03 14:29:33 Database initialized successfully.
+--- PASS: TestMultipleInitializations (0.09s)
+=== RUN   TestCleanup
+2025/08/03 14:29:33 Database initialized successfully.
+--- PASS: TestCleanup (0.03s)
+=== RUN   TestInitWithInvalidPath
+--- PASS: TestInitWithInvalidPath (0.00s)
+=== RUN   TestConcurrentInitializations
+2025/08/03 14:29:33 Database initialized successfully.
+--- PASS: TestConcurrentInitializations (0.05s)
+PASS
+ok  	bugtracker-backend/internal/db	0.396s
+=== RUN   TestCreateBug
+2025/08/03 14:29:33 Database initialized successfully.
+=== RUN   TestCreateBug/Valid_bug_creation
+2025/08/03 14:29:33 CreateBug called from 192.0.2.1:1234
+2025/08/03 14:29:33 Request headers: map[]
+2025/08/03 14:29:33 Request method: POST
+=== RUN   TestCreateBug/Invalid_bug_-_missing_title
+2025/08/03 14:29:33 CreateBug called from 192.0.2.1:1234
+2025/08/03 14:29:33 Request headers: map[]
+2025/08/03 14:29:33 Request method: POST
+=== RUN   TestCreateBug/Invalid_JSON
+2025/08/03 14:29:33 CreateBug called from 192.0.2.1:1234
+2025/08/03 14:29:33 Request headers: map[]
+2025/08/03 14:29:33 Request method: POST
+2025/08/03 14:29:33 Failed to decode create bug request: invalid character 'j' looking for beginning of value
+--- PASS: TestCreateBug (0.12s)
+    --- PASS: TestCreateBug/Valid_bug_creation (0.01s)
+    --- PASS: TestCreateBug/Invalid_bug_-_missing_title (0.00s)
+    --- PASS: TestCreateBug/Invalid_JSON (0.00s)
+=== RUN   TestGetBug
+2025/08/03 14:29:33 Database initialized successfully.
+=== RUN   TestGetBug/Valid_bug_retrieval
+=== RUN   TestGetBug/Non-existent_bug
+=== RUN   TestGetBug/Invalid_bug_ID
+--- PASS: TestGetBug (0.09s)
+    --- PASS: TestGetBug/Valid_bug_retrieval (0.00s)
+    --- PASS: TestGetBug/Non-existent_bug (0.00s)
+    --- PASS: TestGetBug/Invalid_bug_ID (0.00s)
+=== RUN   TestUpdateBug
+2025/08/03 14:29:33 Database initialized successfully.
+=== RUN   TestUpdateBug/Valid_bug_update
+=== RUN   TestUpdateBug/Non-existent_bug
+=== RUN   TestUpdateBug/Invalid_bug_ID
+=== RUN   TestUpdateBug/Invalid_JSON
+--- PASS: TestUpdateBug (0.06s)
+    --- PASS: TestUpdateBug/Valid_bug_update (0.01s)
+    --- PASS: TestUpdateBug/Non-existent_bug (0.00s)
+    --- PASS: TestUpdateBug/Invalid_bug_ID (0.00s)
+    --- PASS: TestUpdateBug/Invalid_JSON (0.00s)
+=== RUN   TestDeleteBug
+2025/08/03 14:29:33 Database initialized successfully.
+=== RUN   TestDeleteBug/Valid_bug_deletion
+=== RUN   TestDeleteBug/Non-existent_bug
+=== RUN   TestDeleteBug/Invalid_bug_ID
+--- PASS: TestDeleteBug (0.04s)
+    --- PASS: TestDeleteBug/Valid_bug_deletion (0.01s)
+    --- PASS: TestDeleteBug/Non-existent_bug (0.00s)
+    --- PASS: TestDeleteBug/Invalid_bug_ID (0.00s)
+=== RUN   TestCreateComment
+2025/08/03 14:29:33 Database initialized successfully.
+=== RUN   TestCreateComment/Valid_comment_creation
+2025/08/03 14:29:33 Creating comment for bug 1
+=== RUN   TestCreateComment/Invalid_bug_ID
+2025/08/03 14:29:33 Creating comment for bug 999
+=== RUN   TestCreateComment/Missing_content
+2025/08/03 14:29:33 Creating comment for bug 1
+=== RUN   TestCreateComment/Invalid_JSON
+2025/08/03 14:29:33 Creating comment for bug 1
+--- PASS: TestCreateComment (0.02s)
+    --- PASS: TestCreateComment/Valid_comment_creation (0.00s)
+    --- PASS: TestCreateComment/Invalid_bug_ID (0.00s)
+    --- PASS: TestCreateComment/Missing_content (0.00s)
+    --- PASS: TestCreateComment/Invalid_JSON (0.00s)
+=== RUN   TestGetComments
+2025/08/03 14:29:33 Database initialized successfully.
+=== RUN   TestGetComments/Get_existing_comments
+2025/08/03 14:29:33 Getting comments for bug 1
+=== RUN   TestGetComments/Get_comments_for_non-existent_bug
+2025/08/03 14:29:33 Getting comments for bug 999
+=== RUN   TestGetComments/Invalid_bug_ID
+2025/08/03 14:29:33 Getting comments for bug invalid
+--- PASS: TestGetComments (0.03s)
+    --- PASS: TestGetComments/Get_existing_comments (0.00s)
+    --- PASS: TestGetComments/Get_comments_for_non-existent_bug (0.00s)
+    --- PASS: TestGetComments/Invalid_bug_ID (0.00s)
+=== RUN   TestHealthCheck
+2025/08/03 14:29:33 Health check request received from 
+2025/08/03 14:29:33 Sending health check response
+--- PASS: TestHealthCheck (0.00s)
+PASS
+ok  	bugtracker-backend/internal/handlers	0.372s
+=== RUN   TestBugValidation
+=== RUN   TestBugValidation/Valid_bug
+=== RUN   TestBugValidation/Missing_title
+=== RUN   TestBugValidation/Invalid_priority
+=== RUN   TestBugValidation/Invalid_status
+--- PASS: TestBugValidation (0.00s)
+    --- PASS: TestBugValidation/Valid_bug (0.00s)
+    --- PASS: TestBugValidation/Missing_title (0.00s)
+    --- PASS: TestBugValidation/Invalid_priority (0.00s)
+    --- PASS: TestBugValidation/Invalid_status (0.00s)
+=== RUN   TestCreateBugRequest
+=== RUN   TestCreateBugRequest/Valid_request
+=== RUN   TestCreateBugRequest/Missing_title
+--- PASS: TestCreateBugRequest (0.00s)
+    --- PASS: TestCreateBugRequest/Valid_request (0.00s)
+    --- PASS: TestCreateBugRequest/Missing_title (0.00s)
+=== RUN   TestCommentValidation
+=== RUN   TestCommentValidation/Valid_comment
+=== RUN   TestCommentValidation/Missing_author
+=== RUN   TestCommentValidation/Missing_content
+=== RUN   TestCommentValidation/Missing_bug_ID
+--- PASS: TestCommentValidation (0.00s)
+    --- PASS: TestCommentValidation/Valid_comment (0.00s)
+    --- PASS: TestCommentValidation/Missing_author (0.00s)
+    --- PASS: TestCommentValidation/Missing_content (0.00s)
+    --- PASS: TestCommentValidation/Missing_bug_ID (0.00s)
+=== RUN   TestCreateCommentRequest
+=== RUN   TestCreateCommentRequest/Valid_request
+=== RUN   TestCreateCommentRequest/Missing_author
+=== RUN   TestCreateCommentRequest/Missing_content
+--- PASS: TestCreateCommentRequest (0.00s)
+    --- PASS: TestCreateCommentRequest/Valid_request (0.00s)
+    --- PASS: TestCreateCommentRequest/Missing_author (0.00s)
+    --- PASS: TestCreateCommentRequest/Missing_content (0.00s)
+PASS
+ok  	bugtracker-backend/internal/models	0.016s
+?   	bugtracker-backend/internal/testutil	[no test files]
