@@ -5,7 +5,7 @@ pipeline {
         stage('Backend Unit Test') {
             steps {
                 dir('bugtracker-backend') {
-                    sh 'go test -v ./... 2>&1 | go-junit-report > test-report.xml'
+                    sh 'go test -v ./... 2>&1 go-junit-report > test-report.xml'
                 }
             }
             post {
