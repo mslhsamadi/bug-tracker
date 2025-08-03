@@ -12,10 +12,10 @@ pipeline {
         stage('Frontend Unit Test') {
             steps {
                 dir('bugtracker-frontend') {
-                    sh ...
+                    sh '''
                     npm ci
                     npm test
-                    ...
+                    '''
                 }
             }
         }
