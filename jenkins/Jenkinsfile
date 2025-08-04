@@ -2,28 +2,32 @@ pipeline {
     agent any
 
     stages {
-        stage('Backend Unit Test') {
-            steps {
-                dir('bugtracker-backend') {
-                    sh 'go test -v ./...'
-                }
-            }
-        }
-        stage('Frontend Unit Test') {
-            steps {
-                dir('bugtracker-frontend') {
-                    sh '''
-                    npm ci
-                    npm test
-                    '''
-                }
-            }
-            post {
-                always{
-                junit 'bugtracker-frontend/test-results.xml'
+        stage('All Unit Test') {
+            parallel {
+                stage('Backend Unit Test') {
+                    steps {
+                        dir('bugtracker-backend') {
+                            sh 'go test -v ./...'
                         }
-             
+                    }
                 }
+
+                stage('Frontend Unit Test') {
+                    steps {
+                        dir('bugtracker-frontend') {
+                            sh '''
+                                npm ci
+                                npm test
+                            '''
+                        }
+                    }
+                    post {
+                        always {
+                            junit 'bugtracker-frontend/test-results.xml'
+                        }
+                    }
+                }
+            }
         }
     }
 }
